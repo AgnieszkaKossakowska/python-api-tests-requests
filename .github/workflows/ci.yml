@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  preparation:
+  tests with python 3.12:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +25,9 @@ jobs:
         run: |
           pip install pytest pytest-cov
           pytest --junit-xml=result.xml --cov=your_package_name
-  tests:
+  tests with python 3.13:
     runs-on: ubuntu-latest
-    needs: preparation
+    needs: tests with python 3.12
     steps:
       - uses: actions/checkout@v4
 
