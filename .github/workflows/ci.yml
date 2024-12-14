@@ -25,6 +25,7 @@ jobs:
         run: |
           pip install pytest pytest-cov
           pytest --junit-xml=result.xml --cov=your_package_name
+          pytest --html=report_stage1.html --self-contained-html
   tests with python 3.13:
     runs-on: ubuntu-latest
     needs: tests with python 3.12
@@ -45,3 +46,4 @@ jobs:
         run: |
           pip install pytest pytest-cov
           pytest --junit-xml=result.xml --cov=your_package_name
+          pytest --html=report_stage2.html --self-contained-html
