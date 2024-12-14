@@ -6,27 +6,22 @@ on:
   pull_request:
 
 jobs:
-  test:
+  stage1:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ '3.14.0-alpha.2' ]
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip'
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    
-    - name: Test with pytest
-      run: |
-        pip install pytest pytest-cov
-        pytest --junit-xml=result.xml --cov=your_package_name
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests with pytest
+        run: |
+          pip install pytest
+          pytest --junitxml=result_stage1.xml        
