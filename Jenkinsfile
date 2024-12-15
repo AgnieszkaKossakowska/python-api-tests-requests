@@ -16,7 +16,7 @@ pipeline {
         }
         stage('install and run tests on python 3.13') {
             steps {
-                docker.image('python:3.13.1').withRun { agent ->
+                docker.image('python:3.13').withRun { agent ->
                     sh 'python -m venv .venv'
                     sh '. .venv/bin/activate'
                     sh 'pip install -r requirements.txt'
