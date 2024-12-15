@@ -1,29 +1,36 @@
 pipeline {
-    agent any
-    
-    environment {
-        NUM_PARALLEL_JOBS = 2
-    }
-
-    stages {
-        stage('install and run tests on python 3.12') {
-            steps {
-                docker.image('python:3.12').withRun { agent ->
-                    sh 'python -m venv .venv'
-                    sh '. .venv/bin/activate'
-                    sh 'pip install -r requirements.txt'
-                    sh 'pytest --html=report_312.html --self-contained-html'
-                }
-            }
+    agent {
+        docker {
+            args '-u root:root'
         }
+    }
+    stages {
+        parallel {
+                stage('install and run tests on python 3.12') {
+                    agent {
+                        docker { image 'python:3.12' }
+                    }
+                    steps {
+                        script {
+                            sh 'python3.12 -m venv12 .venv'
+                            sh '. .venv/bin/activate'
+                            sh 'pip install -r requirements.txt'
+                            sh 'pytest --html=report_313.html --self-contained-html'
+                        }
+                    }
+                }
+            stage('install and run tests on python 3.13') {
+                agent {
+                    docker { image 'python:3.13' }
+                }
+                steps {
+                    script {
 
-        stage('install and run tests on python 3.13') {
-            steps {
-                docker.image('python:3.13').withRun { agent ->
-                    sh 'python -m venv .venv'
-                    sh '. .venv/bin/activate'
-                    sh 'pip install -r requirements.txt'
-                    sh 'pytest --html=report_313.html --self-contained-html'
+                        sh 'python3.13 -m venv13 .venv'
+                        sh '. .venv/bin/activate'
+                        sh 'pip install -r requirements.txt'
+                        sh 'pytest --html=report_313.html --self-contained-html'
+                    }
                 }
             }
         }
