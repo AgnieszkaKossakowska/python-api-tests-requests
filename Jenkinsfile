@@ -5,12 +5,6 @@ pipeline {
         NUM_PARALLEL_JOBS = 2
     }
 
-    options {
-        parallelismOptions {
-            maxParallel = env.NUM_PARALLEL_JOBS.toInteger()
-        }
-    }
-
     stages {
         stage('install and run tests on python 3.12') {
             steps {
